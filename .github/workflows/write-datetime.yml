@@ -1,0 +1,25 @@
+name: Write Datetime
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  write-datetime:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Write datetime to file
+        run: |
+          echo "Last Build: $(date)" > build_timestamp.txt
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add build_timestamp.txt
+          git commit -m "Update build timestamp"
+          git push
